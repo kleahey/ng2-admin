@@ -1,4 +1,5 @@
 import { Component, ViewContainerRef } from '@angular/core';
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import * as $ from 'jquery';
 
 import { GlobalState } from './global.state';
@@ -23,8 +24,10 @@ import { layoutPaths } from './theme/theme.constants';
 export class App {
 
   isMenuCollapsed: boolean = false;
+  items: FirebaseListObservable<any[]>;
 
-  constructor(private _state: GlobalState,
+  constructor(db: AngularFireDatabase,
+              private _state: GlobalState,
               private _imageLoader: BaImageLoaderService,
               private _spinner: BaThemeSpinner,
               private viewContainerRef: ViewContainerRef,
@@ -37,6 +40,8 @@ export class App {
     this._state.subscribe('menu.isCollapsed', (isCollapsed) => {
       this.isMenuCollapsed = isCollapsed;
     });
+
+    this.items = db.list('/items');
   }
 
   public ngAfterViewInit(): void {
