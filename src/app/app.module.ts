@@ -16,6 +16,10 @@ import { AppState, InternalStateType } from './app.service';
 import { GlobalState } from './global.state';
 import { NgaModule } from './theme/nga.module';
 import { PagesModule } from './pages/pages.module';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from '../environments/environment';
 
 
 // Application wide providers
@@ -47,7 +51,10 @@ export type StoreType = {
     NgaModule.forRoot(),
     NgbModule.forRoot(),
     PagesModule,
-    routing
+    routing,
+    AngularFireModule.initializeApp(environment.firebase, 'DevDash'), // imports firebase/app needed for everything
+    AngularFireDatabaseModule, // imports firebase/database for database features
+    AngularFireAuthModule, // imports firebase/auth for authentication
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     APP_PROVIDERS
